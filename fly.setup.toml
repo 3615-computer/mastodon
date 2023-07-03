@@ -1,4 +1,4 @@
-app = "mastodon-example"
+app = "alyx-mastodon"
 
 [deploy]
   release_command = "bundle exec rails db:schema:load db:seed"
