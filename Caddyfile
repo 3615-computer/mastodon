@@ -7,7 +7,7 @@
 # 	path /media_attachments/*
 # }
 # reverse_proxy @assets https://s3.us-west-1.amazonaws.com {
-#   header_up Host "alyx-mastodon-bucket"
+#   header_up Host "3615-computer-bucket"
 # }
 
 reverse_proxy :3000

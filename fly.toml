@@ -1,4 +1,4 @@
-app = "alyx-mastodon"
+app = "3615-computer"
 
 kill_signal = "SIGINT"
 kill_timeout = 5
@@ -16,19 +16,19 @@ kill_timeout = 5
   RAILS_ENV = "production"
   RAILS_LOG_TO_STDOUT = "enabled"
   RAILS_SERVE_STATIC_FILES = "false"
-  REDIS_HOST = "alyx-mastodon-redis.internal"
+  REDIS_HOST = "3615-computer-redis.internal"
   REDIS_PORT = "6379"
   ## Storage on S3 also requires secrets named AWS_ACCESS_KEY_ID and
   ## AWS_SECRET_ACCESS_KEY. If you use this, remove [mounts] below.
   S3_ENABLED = true
-  S3_BUCKET = "alyx-mastodon"
+  S3_BUCKET = "3615-computer"
   S3_ALIAS_HOST = "files.toot.alyxpractice.com"
   S3_ENDPOINT = "https://dfe59bbab9f2a8b244d57744936adfc7.r2.cloudflarestorage.com/"
   S3_PERMISSION = "private"
   S3_PROTOCOL = "https"
 
   ## If you point to Fly here, uncomment the proxy in Caddyfile
-  # S3_ALIAS_HOST=alyx-mastodon.fly.dev
+  # S3_ALIAS_HOST=3615-computer.fly.dev
   ## Sending email via SMTP also requires secrets
   ## named SMTP_LOGIN and SMTP_PASSWORD
   SMTP_SERVER = "smtp.eu.mailgun.org"

@@ -1,4 +1,4 @@
-app = "alyx-mastodon-predeploy"
+app = "3615-computer-predeploy"
 
 [experimental]
   # Just in case the VM does somehow start, don't try to run a server
@@ -12,5 +12,5 @@ app = "alyx-mastodon-predeploy"
   MALLOC_ARENA_MAX = "2"
   RAILS_ENV = "production"
   RAILS_LOG_TO_STDOUT = "enabled"
-  REDIS_HOST = "alyx-mastodon-redis.internal"
+  REDIS_HOST = "3615-computer-redis.internal"
   REDIS_PORT = "6379"

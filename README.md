@@ -25,7 +25,7 @@ You'll need a [Fly.io](https://fly.io/) account, and the [Flyctl CLI](https://fl
 Fork this repo and clone a copy of it. Choose a name for your app that isn't already taken on https://fly.io/, and run the script `bin/name YOURNAME`. Follow this readme from inside your repo, after you have run the script, so that all of the steps will be updated for the name of your Fly.io app.
 
 ```bash
-fly apps create alyx-mastodon
+fly apps create 3615-computer
 fly scale memory 1024 # Rails + Sidekiq needs more than 512
 ```
 
@@ -45,7 +45,7 @@ Redis is used to store the home/list feeds, along with the Sidekiq queue informa
 Choose a region that is close to your users. See [Fly regions](https://fly.io/docs/reference/regions/) for a list of regions or run `fly platform regions`. In this example, we'll use `sjc` (San Jose, CA).
 
 ```bash
-fly apps create alyx-mastodon-redis
+fly apps create 3615-computer-redis
 bin/fly-redis volumes create --region sjc --size 1 mastodon_redis
 bin/fly-redis deploy
 ```
@@ -77,8 +77,8 @@ To serve cloud-stored images directly from your domain, set `S3_ALIAS_HOST` in [
 ### Postgres database
 
 ```bash
-fly pg create --region sjc --name alyx-mastodon-db
-fly pg attach alyx-mastodon-db
+fly pg create --region sjc --name 3615-computer-db
+fly pg attach 3615-computer-db
 fly deploy -c fly.setup.toml # run `rails db:schema:load`, may take 2-3 minutes
 ```
 
@@ -99,8 +99,8 @@ fly secrets set SMTP_LOGIN=<public token> SMTP_PASSWORD=<secret token>
     If your DNS host supports ALIAS records:
 
     ```bash
-    @   ALIAS alyx-mastodon.fly.dev
-    www CNAME alyx-mastodon.fly.dev
+    @   ALIAS 3615-computer.fly.dev
+    www CNAME 3615-computer.fly.dev
     ```
 
     If your DNS host only allows A records, use the IP. For example, if your IP was `3.3.3.3`:
@@ -139,7 +139,7 @@ Enjoy your server.
 
 If you still haven't gotten enough, here are some notes on how to operate your instance after it's running.
 
-Useful resources for operating and debugging a running instance include `fly logs`, `fly scale show`, `fly ssh console`, the Metrics section of `fly dashboard`, and the Sidekiq dashboard at <https://alyx-mastodon.fly.dev/sidekiq> (you have to be logged in to Mastodon as an admin user to see it).
+Useful resources for operating and debugging a running instance include `fly logs`, `fly scale show`, `fly ssh console`, the Metrics section of `fly dashboard`, and the Sidekiq dashboard at <https://3615-computer.fly.dev/sidekiq> (you have to be logged in to Mastodon as an admin user to see it).
 
 If your instance is getting slow or falling over, you may find [Scaling Mastodon in the Face of an Exodus](https://nora.codes/post/scaling-mastodon-in-the-face-of-an-exodus/) helpful.
 
@@ -152,7 +152,7 @@ If there are migrations that need to be run, make sure that the release command 
 If there are migrations that must be run before deploying to avoid downtime, you can run the pre-deploy migrations using a second app. By scaling this app to a VM count of zero, it won't add to our bill, but it will let us run the pre-deploy migrations as a release command before the web processes get the new code.
 
 ```bash
-fly apps create alyx-mastodon-predeploy
+fly apps create 3615-computer-predeploy
 bin/fly-predeploy secrets set OTP_SECRET=placeholder SECRET_KEY_BASE=placeholder
 bin/fly-predeploy secrets set $(fly ssh console -C env | grep DATABASE_URL)
 bin/fly-predeploy scale memory 1024
