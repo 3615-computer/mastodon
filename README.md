@@ -42,11 +42,11 @@ docker run --rm -e OTP_SECRET=$OTP_SECRET -e SECRET_KEY_BASE=$SECRET_KEY_BASE -i
 
 Redis is used to store the home/list feeds, along with the Sidekiq queue information. The feeds can be regenerated using `tootctl`, so persistence is [not strictly necessary](https://docs.joinmastodon.org/admin/backups/#failure).
 
-Choose a region that is close to your users. See [Fly regions](https://fly.io/docs/reference/regions/) for a list of regions or run `fly platform regions`. In this example, we'll use `sjc` (San Jose, CA).
+Choose a region that is close to your users. See [Fly regions](https://fly.io/docs/reference/regions/) for a list of regions or run `fly platform regions`. In this example, we'll use `cdg` (Paris, France).
 
 ```bash
 fly apps create 3615-computer-redis
-bin/fly-redis volumes create --region sjc --size 1 mastodon_redis
+bin/fly-redis volumes create --region cdg --size 1 mastodon_redis
 bin/fly-redis deploy
 ```
 
@@ -59,7 +59,7 @@ Create that volume below, or remove the `[mounts]` section and uncomment `[env] 
 #### Option 1: Local volume
 
 ```bash
-fly volumes create --region sjc mastodon_uploads
+fly volumes create --region cdg mastodon_uploads
 ```
 
 #### Option 2: Cloud storage
@@ -77,7 +77,7 @@ To serve cloud-stored images directly from your domain, set `S3_ALIAS_HOST` in [
 ### Postgres database
 
 ```bash
-fly pg create --region sjc --name 3615-computer-db
+fly pg create --region cdg --name 3615-computer-db
 fly pg attach 3615-computer-db
 fly deploy -c fly.setup.toml # run `rails db:schema:load`, may take 2-3 minutes
 ```
