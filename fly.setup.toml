@@ -1,4 +1,4 @@
-app = "3615-computer"
+app = "mastodon-3615-computer"
 
 [deploy]
   release_command = "bundle exec rails db:schema:load db:seed"

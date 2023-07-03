@@ -1,4 +1,4 @@
-app = "3615-computer"
+app = "mastodon-3615-computer"
 
 kill_signal = "SIGINT"
 kill_timeout = 5
@@ -8,7 +8,7 @@ kill_timeout = 5
 #   release_command = "bin/rails db:migrate"
 
 [env]
-  LOCAL_DOMAIN = "toot.alyxpractice.com"
+  LOCAL_DOMAIN = "3615.computer"
   WEB_CONCURRENCY = "0" # exactly 1 Puma process
   OVERMIND_FORMATION = "sidekiq=1" # exactly 1 sidekiq process
   MALLOC_ARENA_MAX = "2"
@@ -16,13 +16,13 @@ kill_timeout = 5
   RAILS_ENV = "production"
   RAILS_LOG_TO_STDOUT = "enabled"
   RAILS_SERVE_STATIC_FILES = "false"
-  REDIS_HOST = "3615-computer-redis.internal"
+  REDIS_HOST = "mastodon-3615-computer-redis.internal"
   REDIS_PORT = "6379"
   ## Storage on S3 also requires secrets named AWS_ACCESS_KEY_ID and
   ## AWS_SECRET_ACCESS_KEY. If you use this, remove [mounts] below.
   S3_ENABLED = true
-  S3_BUCKET = "3615-computer"
-  S3_ALIAS_HOST = "files.toot.alyxpractice.com"
+  S3_BUCKET = "3615-computer-mastodon"
+  S3_ALIAS_HOST = "mastodon-files.3615.computer"
   S3_ENDPOINT = "https://dfe59bbab9f2a8b244d57744936adfc7.r2.cloudflarestorage.com/"
   S3_PERMISSION = "private"
   S3_PROTOCOL = "https"
@@ -34,7 +34,7 @@ kill_timeout = 5
   SMTP_SERVER = "smtp.eu.mailgun.org"
   SMTP_PORT = "587"
   SMTP_ENABLE_STARTTLS = "always"
-  SMTP_FROM_ADDRESS = "toot@alyxpractice.com"
+  SMTP_FROM_ADDRESS = "mastodon@3615.computer"
 
 ## Comment out this section if you use cloud storage
 # [mounts]

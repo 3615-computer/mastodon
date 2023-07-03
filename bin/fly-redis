@@ -1,2 +1,2 @@
 #!/bin/sh
-FLY_APP=3615-computer-redis exec "fly" -c fly.redis.toml "$@"
+FLY_APP=mastodon-3615-computer-redis exec "fly" -c fly.redis.toml "$@"
