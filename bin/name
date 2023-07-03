@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [[ -n "$1" ]]; then
-  find . -exec sed -i '' -e "s/alyx-mastodon/$1/g" {} \;
+  find . -exec sed -i '' -e "s/3615-computer/$1/g" {} \;
 else
   echo "USAGE: bin/name APPNAME"
   exit 1
