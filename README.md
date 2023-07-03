@@ -25,7 +25,7 @@ You'll need a [Fly.io](https://fly.io/) account, and the [Flyctl CLI](https://fl
 Fork this repo and clone a copy of it. Choose a name for your app that isn't already taken on https://fly.io/, and run the script `bin/name YOURNAME`. Follow this readme from inside your repo, after you have run the script, so that all of the steps will be updated for the name of your Fly.io app.
 
 ```bash
-fly apps create 3615-computer
+fly apps create --org 3615-computer mastodon-3615-computer
 fly scale memory 1024 # Rails + Sidekiq needs more than 512
 ```
 
@@ -42,10 +42,10 @@ docker run --rm -e OTP_SECRET=$OTP_SECRET -e SECRET_KEY_BASE=$SECRET_KEY_BASE -i
 
 Redis is used to store the home/list feeds, along with the Sidekiq queue information. The feeds can be regenerated using `tootctl`, so persistence is [not strictly necessary](https://docs.joinmastodon.org/admin/backups/#failure).
 
-Choose a region that is close to your users. See [Fly regions](https://fly.io/docs/reference/regions/) for a list of regions or run `fly platform regions`. In this example, we'll use `cdg` (Paris, France).
+Choose a region that is close to your users. See [fly regions](https://fly.io/docs/reference/regions/) for a list of regions or run `fly platform regions`. In this example, we'll use `cdg` (Paris, France).
 
 ```bash
-fly apps create 3615-computer-redis
+fly apps create --org 3615-computer mastodon-3615-computer-redis
 bin/fly-redis volumes create --region cdg --size 1 mastodon_redis
 bin/fly-redis deploy
 ```
@@ -77,14 +77,14 @@ To serve cloud-stored images directly from your domain, set `S3_ALIAS_HOST` in [
 ### Postgres database
 
 ```bash
-fly pg create --region cdg --name 3615-computer-db
-fly pg attach 3615-computer-db
+fly pg create --org 3615-computer --region cdg --name mastodon-3615-computer-db
+fly pg attach mastodon-3615-computer-db
 fly deploy -c fly.setup.toml # run `rails db:schema:load`, may take 2-3 minutes
 ```
 
 ### Sending email
 
-Mastodon sends emails on sign-up, to confirm email addresses. It also uses emails for password resets, notifications to the server admins, and various other tasks. To have a fully-functioning Mastodon server, you'll need to create an account with an email service like [Postmark](https://postmarkapp.com/) or [Mailgun](https://www.mailgun.com/), get credentials, and provide those credentials to Mastodon as env vars or secrets. See [`fly.toml`](./fly.toml) for an example of the env vars you would set, and then provide your credentials as Fly secrets:
+Mastodon sends emails on sign-up, to confirm email addresses. It also uses emails for password resets, notifications to the server admins, and various other tasks. To have a fully-functioning Mastodon server, you'll need to create an account with an email service like [Postmark](https://postmarkapp.com/) or [Mailgun](https://www.mailgun.com/), get credentials, and provide those credentials to Mastodon as env vars or secrets. See [`fly.toml`](./fly.toml) for an example of the env vars you would set, and then provide your credentials as fly secrets:
 
 ```bash
 fly secrets set SMTP_LOGIN=<public token> SMTP_PASSWORD=<secret token>
@@ -99,8 +99,8 @@ fly secrets set SMTP_LOGIN=<public token> SMTP_PASSWORD=<secret token>
     If your DNS host supports ALIAS records:
 
     ```bash
-    @   ALIAS 3615-computer.fly.dev
-    www CNAME 3615-computer.fly.dev
+    @   ALIAS mastodon-3615-computer.fly.dev
+    www CNAME mastodon-3615-computer.fly.dev
     ```
 
     If your DNS host only allows A records, use the IP. For example, if your IP was `3.3.3.3`:
@@ -139,7 +139,7 @@ Enjoy your server.
 
 If you still haven't gotten enough, here are some notes on how to operate your instance after it's running.
 
-Useful resources for operating and debugging a running instance include `fly logs`, `fly scale show`, `fly ssh console`, the Metrics section of `fly dashboard`, and the Sidekiq dashboard at <https://3615-computer.fly.dev/sidekiq> (you have to be logged in to Mastodon as an admin user to see it).
+Useful resources for operating and debugging a running instance include `fly logs`, `fly scale show`, `fly ssh console`, the Metrics section of `fly dashboard`, and the Sidekiq dashboard at <https://mastodon-3615-computer.fly.dev/sidekiq> (you have to be logged in to Mastodon as an admin user to see it).
 
 If your instance is getting slow or falling over, you may find [Scaling Mastodon in the Face of an Exodus](https://nora.codes/post/scaling-mastodon-in-the-face-of-an-exodus/) helpful.
 
@@ -152,7 +152,7 @@ If there are migrations that need to be run, make sure that the release command 
 If there are migrations that must be run before deploying to avoid downtime, you can run the pre-deploy migrations using a second app. By scaling this app to a VM count of zero, it won't add to our bill, but it will let us run the pre-deploy migrations as a release command before the web processes get the new code.
 
 ```bash
-fly apps create 3615-computer-predeploy
+fly apps create --org 3615-computer mastodon-3615-computer-predeploy
 bin/fly-predeploy secrets set OTP_SECRET=placeholder SECRET_KEY_BASE=placeholder
 bin/fly-predeploy secrets set $(fly ssh console -C env | grep DATABASE_URL)
 bin/fly-predeploy scale memory 1024
@@ -172,7 +172,7 @@ If your instance attracts many users (or maybe a few users who follow a huge num
 
 #### A bigger VM
 
-If you need more web processes, or more sidekiq workers, the easiest option is to choose a larger Fly VM size via `fly scale vm`. With a larger VM, you can run more Puma processes by setting `WEB_CONCURRENCY`, and you can run more sidekiq processes by setting `OVERMIND_FORMATION`. Try to aim for about as many Puma+Sidekiq processes as you have cores, and review the CPU usage of your VM to know whether to adjust up or down.
+If you need more web processes, or more sidekiq workers, the easiest option is to choose a larger fly VM size via `fly scale vm`. With a larger VM, you can run more Puma processes by setting `WEB_CONCURRENCY`, and you can run more sidekiq processes by setting `OVERMIND_FORMATION`. Try to aim for about as many Puma+Sidekiq processes as you have cores, and review the CPU usage of your VM to know whether to adjust up or down.
 
 For example, if you upgrade to `dedicated-cpu-4x`, you might set `WEB_CONCURRENCY=2` and `OVERMIND_FORMATION=sidekiq=2` in [`fly.toml`](./fly.toml).
 
@@ -180,12 +180,12 @@ At that point, you'll have two Puma processes and two Sidekiq processes, running
 
 #### Adding more VMs
 
-If you need to scale beyond the largest Fly VM (8 CPU cores and 16GB, at the time of writing), or you just want to run a bigger number of smaller VMs, you can also do that. We're going to split up responsibilities, creating one type of VM that runs the Sidekiq scheduler process, another type of VM that runs Sidekiq workers for all the other background jobs, and a third type of VM that runs the Rails, Node, and Caddy servers. You'll be able to tell Fly how many of each VM you want, separately.
+If you need to scale beyond the largest fly VM (8 CPU cores and 16GB, at the time of writing), or you just want to run a bigger number of smaller VMs, you can also do that. We're going to split up responsibilities, creating one type of VM that runs the Sidekiq scheduler process, another type of VM that runs Sidekiq workers for all the other background jobs, and a third type of VM that runs the Rails, Node, and Caddy servers. You'll be able to tell fly how many of each VM you want, separately.
 
 **Caveats:**
 
-1. **You _must_ already be using [cloud storage](#option-2-cloud-storage) instead of Fly volumes.**
-1. **To undo this change you have to destroy your Fly app and recreate it.**
+1. **You _must_ already be using [cloud storage](#option-2-cloud-storage) instead of fly volumes.**
+1. **To undo this change you have to destroy your fly app and recreate it.**
 
 Ready? Okay, let's do it:
 

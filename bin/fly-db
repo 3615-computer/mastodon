@@ -1,2 +1,2 @@
 #!/bin/sh
-FLY_APP=3615-computer-db exec "fly" -c fly.db.toml "$@"
+FLY_APP=mastodon-3615-computer-db exec "fly" -c fly.db.toml "$@"
