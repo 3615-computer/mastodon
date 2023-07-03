@@ -1,3 +1,13 @@
+# How to update from public fork/repo?
+
+```
+# Create merge commit
+git pull public main
+
+# Push changes
+git push origin main
+```
+
 # Mastodon on Fly.io
 
 [Mastodon](https://github.com/mastodon/mastodon) is a free, open-source social network server based on the [ActivityPub](https://www.w3.org/TR/activitypub/) standard.
