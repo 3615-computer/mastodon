@@ -3,12 +3,10 @@ app = "mastodon-3615-computer"
 kill_signal = "SIGINT"
 kill_timeout = 5
 
-## Uncomment if you are upgrading Mastodon. See README.md for details.
-# [deploy]
-#   release_command = "bin/rails db:migrate"
-
 [deploy]
   strategy = "bluegreen"
+  ## Uncomment if you are upgrading Mastodon. See README.md for details.
+  # release_command = "bin/rails db:migrate"
 
 [env]
   LOCAL_DOMAIN = "3615.computer"
