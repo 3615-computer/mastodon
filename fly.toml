@@ -7,6 +7,9 @@ kill_timeout = 5
 # [deploy]
 #   release_command = "bin/rails db:migrate"
 
+[deploy]
+  strategy = "bluegreen"
+
 [env]
   LOCAL_DOMAIN = "3615.computer"
   WEB_CONCURRENCY = "0" # exactly 1 Puma process
