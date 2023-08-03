@@ -33,7 +33,7 @@ S3_PROTOCOL = "https"
 ## Sending email via SMTP also requires secrets
 ## named SMTP_LOGIN and SMTP_PASSWORD
 SMTP_SERVER = "smtp.sendgrid.net"
-SMTP_PORT = "465"
+SMTP_PORT = "587"
 SMTP_ENABLE_STARTTLS = "always"
 SMTP_FROM_ADDRESS = "mastodon@3615.computer"
 
