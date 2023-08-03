@@ -32,8 +32,8 @@ S3_PROTOCOL = "https"
 # S3_ALIAS_HOST=3615-computer.fly.dev
 ## Sending email via SMTP also requires secrets
 ## named SMTP_LOGIN and SMTP_PASSWORD
-SMTP_SERVER = "smtp.eu.mailgun.org"
-SMTP_PORT = "587"
+SMTP_SERVER = "smtp.sendgrid.net"
+SMTP_PORT = "465"
 SMTP_ENABLE_STARTTLS = "always"
 SMTP_FROM_ADDRESS = "mastodon@3615.computer"
 
