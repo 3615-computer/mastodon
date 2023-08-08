@@ -21,7 +21,7 @@ REDIS_HOST = "mastodon-3615-computer-redis.internal"
 REDIS_PORT = "6379"
 ## Storage on S3 also requires secrets named AWS_ACCESS_KEY_ID and
 ## AWS_SECRET_ACCESS_KEY. If you use this, remove [mounts] below.
-S3_ENABLED = true
+S3_ENABLED = "true"
 S3_BUCKET = "3615-computer-mastodon"
 S3_ALIAS_HOST = "mastodon-files.3615.computer"
 S3_ENDPOINT = "https://dfe59bbab9f2a8b244d57744936adfc7.r2.cloudflarestorage.com/"
