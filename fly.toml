@@ -18,8 +18,9 @@ RAILS_ENV = "production"
 RAILS_LOG_LEVEL = "warn"
 RAILS_LOG_TO_STDOUT = "enabled"
 RAILS_SERVE_STATIC_FILES = "false"
-REDIS_HOST = "mastodon-3615-computer-redis.internal"
-REDIS_PORT = "6379"
+REDIS_URL = "redis://mastodon-3615-computer-redis.internal:6379/?family=6" # Force IPv6 with "family=6"
+# REDIS_HOST = "mastodon-3615-computer-redis.internal"
+# REDIS_PORT = "6379"
 ## Storage on S3 also requires secrets named AWS_ACCESS_KEY_ID and
 ## AWS_SECRET_ACCESS_KEY. If you use this, remove [mounts] below.
 S3_ENABLED = "true"
@@ -28,8 +29,8 @@ S3_ALIAS_HOST = "mastodon-files.3615.computer"
 S3_ENDPOINT = "https://dfe59bbab9f2a8b244d57744936adfc7.r2.cloudflarestorage.com/"
 S3_PERMISSION = "private"
 S3_PROTOCOL = "https"
-# Source: https://www.cloudflare.com/ips-v4 + https://www.cloudflare.com/ips-v6
-TRUSTED_PROXY_IP = "127.0.0.1/8,::1/128,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,fc00::/7,173.245.48.0/20,103.21.244.0/22,103.22.200.0/22,103.31.4.0/22,141.101.64.0/18,108.162.192.0/18,190.93.240.0/20,188.114.96.0/20,197.234.240.0/22,198.41.128.0/17,162.158.0.0/15,104.16.0.0/13,104.24.0.0/14,172.64.0.0/13,131.0.72.0/22,2400:cb00::/32,2606:4700::/32,2803:f800::/32,2405:b500::/32,2405:8100::/32,2a06:98c0::/29,2c0f:f248::/32"
+# S3_DISABLE_CHECKSUM_MODE: https://github.com/mastodon/mastodon/pull/26435
+S3_DISABLE_CHECKSUM_MODE = "true"
 
 ## If you point to Fly here, uncomment the proxy in Caddyfile
 # S3_ALIAS_HOST=3615-computer.fly.dev
