@@ -70,15 +70,15 @@ S3, Wasabi, etc
 fly secrets set AWS_ACCESS_KEY_ID=xxx AWS_SECRET_ACCESS_KEY=yyy
 ```
 
-Uncomment the section in [`fly.toml`](./fly.toml) to configure [AWS S3](https://aws.amazon.com/s3/) or [Wasabi](https://wasabi.com/).  See [mastodon.rake](https://github.com/mastodon/mastodon/blob/5ba46952af87e42a64962a34f7ec43bc710bdcaf/lib/tasks/mastodon.rake#L137) for the env vars needed for [MinIO](https://min.io/) or [Google Cloud Storage](https://cloud.google.com/storage/).
+Uncomment the section in [`fly.toml`](./fly.toml) to configure [AWS S3](https://aws.amazon.com/s3/) or [Wasabi](https://wasabi.com/). See [mastodon.rake](https://github.com/mastodon/mastodon/blob/5ba46952af87e42a64962a34f7ec43bc710bdcaf/lib/tasks/mastodon.rake#L137) for the env vars needed for [MinIO](https://min.io/) or [Google Cloud Storage](https://cloud.google.com/storage/).
 
 To serve cloud-stored images directly from your domain, set `S3_ALIAS_HOST` in [`fly.toml`](./fly.toml) and then uncomment the section at the top of `Caddyfile`.
 
 ### Postgres database
 
 ```bash
-fly pg create --org 3615-computer --region cdg --name mastodon-3615-computer-db
-fly pg attach mastodon-3615-computer-db
+fly pg create --org 3615-computer --region cdg --name mastodon-3615-computer-pg
+fly pg attach mastodon-3615-computer-pg
 fly deploy -c fly.setup.toml # run `rails db:schema:load`, may take 2-3 minutes
 ```
 
@@ -96,26 +96,26 @@ fly secrets set SMTP_LOGIN=<public token> SMTP_PASSWORD=<secret token>
 2. Run `fly ips list`, and if the list is empty, run `fly ips allocate-v4`.
 3. Then, create DNS records for your custom domain.
 
-    If your DNS host supports ALIAS records:
+   If your DNS host supports ALIAS records:
 
-    ```bash
-    @   ALIAS mastodon-3615-computer.fly.dev
-    www CNAME mastodon-3615-computer.fly.dev
-    ```
+   ```bash
+   @   ALIAS mastodon-3615-computer.fly.dev
+   www CNAME mastodon-3615-computer.fly.dev
+   ```
 
-    If your DNS host only allows A records, use the IP. For example, if your IP was `3.3.3.3`:
+   If your DNS host only allows A records, use the IP. For example, if your IP was `3.3.3.3`:
 
-    ```bash
-    @   A     3.3.3.3
-    www CNAME @
-    ```
+   ```bash
+   @   A     3.3.3.3
+   www CNAME @
+   ```
 
 4. Finally, generate SSL certificates from Let's Encrypt:
 
-    ```bash
-    fly certs add MYDOMAIN.COM
-    fly certs add WWW.MYDOMAIN.COM
-    ```
+   ```bash
+   fly certs add MYDOMAIN.COM
+   fly certs add WWW.MYDOMAIN.COM
+   ```
 
 ## Deploy
 
@@ -192,13 +192,13 @@ Ready? Okay, let's do it:
 1. Convert your application to multiple-VM mode by uncommenting the `[processes]` section in [`fly.toml`](./fly.toml).
 1. Scale memory so everything can run successfully.
 
-    ```bash
-    fly scale memory 512 --group sidekiq  # a single sidekiq with 5 threads uses about 400MB
-    fly scale memory 512 --group schedule # a single sidekiq with 5 threads uses about 400MB
-    fly scale memory 512 --group rails    # rails with 5 threads plus node uses about 430MB
-    fly scale count schedule=1 rails=2 sidekiq=2 # or your desired number of VMs
-    fly deploy
-    ```
+   ```bash
+   fly scale memory 512 --group sidekiq  # a single sidekiq with 5 threads uses about 400MB
+   fly scale memory 512 --group schedule # a single sidekiq with 5 threads uses about 400MB
+   fly scale memory 512 --group rails    # rails with 5 threads plus node uses about 430MB
+   fly scale count schedule=1 rails=2 sidekiq=2 # or your desired number of VMs
+   fly deploy
+   ```
 
 Increase the number of `rails` or `sidekiq` processes by running `fly scale count rails=N` or `fly scale count sidekiq=N` as needed. Don't forget to also adjust the number of Puma and Sidekiq threads, as described in [A bigger VM](#a-bigger-vm) above, to match your CPU and memory settings!
 
