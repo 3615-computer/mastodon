@@ -2,6 +2,7 @@ app = "mastodon-3615-computer"
 
 kill_signal = "SIGINT"
 kill_timeout = 5
+swap_size_mb = 1024
 
 [deploy]
 strategy = "bluegreen"
