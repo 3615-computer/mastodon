@@ -11,9 +11,11 @@ RUN wget "https://github.com/caddyserver/caddy/releases/download/v2.8.4/caddy_2.
     dpkg -i caddy.deb
 
 USER mastodon
-RUN wget "https://github.com/DarthSim/overmind/releases/download/v2.4.0/overmind-v2.4.0-linux-amd64.gz" -O overmind.gz && \
-  gunzip overmind.gz && \
-  chmod +x overmind
+
+# Releases: https://github.com/DarthSim/overmind/releases
+RUN wget "https://github.com/DarthSim/overmind/releases/download/v2.5.1/overmind-v2.5.1-linux-amd64.gz" -O overmind.gz && \
+    gunzip overmind.gz && \
+    chmod +x overmind
 
 ADD Procfile Caddyfile /opt/mastodon/
 
