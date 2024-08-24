@@ -10,7 +10,13 @@ strategy = "bluegreen"
 # release_command = "bin/rails db:migrate"
 
 [env]
+# Sources:
+# - https://github.com/mastodon/mastodon/blob/3abb5c0eaabb408337bcd2b9a36cf1d8527f467e/dist/mastodon-web.service#L11
+# - https://leah.is/posts/scaling-the-mastodon/
 LOCAL_DOMAIN = "3615.computer"
+WEB_CONCURRENCY = "4"
+MAX_THREADS = "5"
+OVERMIND_FORMATION = "sidekiq=1"
 # MALLOC_ARENA_MAX = "2" // Replaced with "LD_PRELOAD=libjemalloc.so"
 LD_PRELOAD = "libjemalloc.so"
 RAILS_ENV = "production"
