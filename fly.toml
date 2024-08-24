@@ -10,10 +10,8 @@ strategy = "bluegreen"
 
 [env]
 LOCAL_DOMAIN = "3615.computer"
-WEB_CONCURRENCY = "2"
-OVERMIND_FORMATION = "sidekiq=2"
-MALLOC_ARENA_MAX = "2"
-MAX_THREADS = "15"
+# MALLOC_ARENA_MAX = "2" // Replaced with "LD_PRELOAD=libjemalloc.so"
+LD_PRELOAD = "libjemalloc.so"
 RAILS_ENV = "production"
 RAILS_LOG_LEVEL = "warn"
 RAILS_LOG_TO_STDOUT = "enabled"
